@@ -1,94 +1,520 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MingleHub Dating</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-        }
-        .card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        h1 {
-            color: #e91e63;
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-        }
-        p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        .btn {
-            background: #e91e63;
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            font-weight: bold;
-            width: 100%;
-        }
-        .btn:hover {
-            background: #c2185b;
-            transform: translateY(-2px);
-        }
-        .match-box {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #fff0f5;
-            border-radius: 10px;
-            display: none;
-            font-weight: bold;
-            color: #c2185b;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MingleHub ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 30px;
+      border-radius: 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.15);
+      text-align: center;
+    }
+
+    h1 {
+      color: #e91e63;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 30px;
+      background: #e91e63;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #c2185b;
+    }
+
+    .secondary {
+      background: #777;
+    }
+
+    .secondary:hover {
+      background: #555;
+    }
+
+    .link {
+      margin-top: 15px;
+      color: #e91e63;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #signupBox,
+    #profileBox {
+      display: none;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .welcome {
+      margin: 15px 0;
+      color: #555;
+    }
+  </style>
 </head>
+
 <body>
 
-    <div class="card">
-        <h1>Welcome to MingleHub ❤️</h1>
-        <p>Find someone special.</p>
-        <button class="btn" onclick="findMatch()">Find My Match</button>
-        <div id="matchDisplay" class="match-box"></div>
+<div class="card">
+
+  <h1>Welcome to MingleHub ❤️</h1>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+
+    <h2>Login</h2>
+
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Password"
+    >
+
+    <button onclick="loginUser()">
+      Login
+    </button>
+
+    <div class="link" onclick="showSignup()">
+      Don't have an account? Sign Up
     </div>
 
-    <script>
-        function findMatch() {
-            const matches = ["Alex, 24 🌟", "Taylor, 27 🎨", "Jordan, 26 🚀", "Morgan, 25 📚", "Sam, 28 🎸"];
-            const randomMatch = matches[Math.floor(Math.random() * matches.length)];
-            const display = document.getElementById("matchDisplay");
-            
-            display.style.display = "block";
-            display.innerHTML = `✨ Success! Your match is: ${randomMatch}`;
+  </div>
+
+
+  <!-- SIGN UP -->
+  <div id="signupBox">
+
+    <h2>Create Account</h2>
+
+    <input
+      type="text"
+      id="signupName"
+      placeholder="Your name"
+    >
+
+    <input
+      type="email"
+      id="signupEmail"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="signupPassword"
+      placeholder="Password (6+ characters)"
+    >
+
+    <button onclick="signupUser()">
+      Create Account
+    </button>
+
+    <div class="link" onclick="showLogin()">
+      Already have an account? Login
+    </div>
+
+  </div>
+
+
+  <!-- PROFILE -->
+  <div id="profileBox">
+
+    <h2>Welcome 🎉</h2>
+
+    <div class="welcome" id="userInfo"></div>
+
+    <button onclick="findMatch()">
+      ❤️ Find My Match
+    </button>
+
+    <button class="secondary" onclick="logoutUser()">
+      Logout
+    </button>
+
+    <div id="matchDisplay"></div>
+
+  </div>
+
+  <div id="message"></div>
+
+</div>
+
+
+<!-- Firebase -->
+<script type="module">
+
+  import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+  } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+  } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+  // ==========================================
+  // 🔥 PUT YOUR FIREBASE CONFIG HERE
+  // ==========================================
+
+  const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+    projectId: "YOUR_PROJECT_ID",
+
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+
+    messagingSenderId: "YOUR_SENDER_ID",
+
+    appId: "YOUR_APP_ID"
+
+  };
+
+
+  // Initialize Firebase
+
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+  const db = getFirestore(app);
+
+
+  // ==========================================
+  // SHOW MESSAGE
+  // ==========================================
+
+  function showMessage(text) {
+
+    document.getElementById("message").innerText = text;
+
+  }
+
+
+  // ==========================================
+  // SHOW LOGIN
+  // ==========================================
+
+  window.showLogin = function() {
+
+    document.getElementById("loginBox").style.display = "block";
+
+    document.getElementById("signupBox").style.display = "none";
+
+    document.getElementById("profileBox").style.display = "none";
+
+    showMessage("");
+
+  };
+
+
+  // ==========================================
+  // SHOW SIGNUP
+  // ==========================================
+
+  window.showSignup = function() {
+
+    document.getElementById("loginBox").style.display = "none";
+
+    document.getElementById("signupBox").style.display = "block";
+
+    document.getElementById("profileBox").style.display = "none";
+
+    showMessage("");
+
+  };
+
+
+  // ==========================================
+  // SIGN UP
+  // ==========================================
+
+  window.signupUser = async function() {
+
+    const name =
+      document.getElementById("signupName").value.trim();
+
+    const email =
+      document.getElementById("signupEmail").value.trim();
+
+    const password =
+      document.getElementById("signupPassword").value;
+
+
+    if (!name || !email || !password) {
+
+      showMessage("Please fill all fields.");
+
+      return;
+
+    }
+
+
+    if (password.length < 6) {
+
+      showMessage("Password must be at least 6 characters.");
+
+      return;
+
+    }
+
+
+    try {
+
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+      const user = userCredential.user;
+
+
+      // Save profile in Firestore
+
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+
+          name: name,
+
+          email: email,
+
+          createdAt: new Date(),
+
+          bio: "",
+
+          photo: "",
+
+          online: true
+
         }
-    </script>
+      );
+
+
+      showMessage("Account created successfully ❤️");
+
+
+    } catch (error) {
+
+      showMessage(error.message);
+
+    }
+
+  };
+
+
+  // ==========================================
+  // LOGIN
+  // ==========================================
+
+  window.loginUser = async function() {
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+
+    if (!email || !password) {
+
+      showMessage("Enter email and password.");
+
+      return;
+
+    }
+
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      showMessage("Login successful ❤️");
+
+
+    } catch (error) {
+
+      showMessage(error.message);
+
+    }
+
+  };
+
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  window.logoutUser = async function() {
+
+    await signOut(auth);
+
+    showMessage("Logged out.");
+
+  };
+
+
+  // ==========================================
+  // AUTH STATE
+  // ==========================================
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (user) {
+
+      document.getElementById("loginBox").style.display = "none";
+
+      document.getElementById("signupBox").style.display = "none";
+
+      document.getElementById("profileBox").style.display = "block";
+
+
+      const userDoc =
+        await getDoc(doc(db, "users", user.uid));
+
+
+      if (userDoc.exists()) {
+
+        const data = userDoc.data();
+
+        document.getElementById("userInfo").innerText =
+          `Hi ${data.name}! 👋\n${data.email}`;
+
+      } else {
+
+        document.getElementById("userInfo").innerText =
+          user.email;
+
+      }
+
+    } else {
+
+      showLogin();
+
+    }
+
+  });
+
+
+  // ==========================================
+  // DEMO MATCH
+  // ==========================================
+
+  window.findMatch = function() {
+
+    const matches = [
+
+      "Akash, 19 🌟",
+
+      "ishan, 17 🎨",
+
+      "suman, 18 🚀",
+
+      "Morgan, 25 📚",
+
+      "Sam, 28 🎸"
+
+    ];
+
+
+    const match =
+      matches[Math.floor(Math.random() * matches.length)];
+
+
+    document.getElementById("matchDisplay").innerHTML = `
+
+      <div style="
+        margin-top:20px;
+        padding:15px;
+        background:#fff0f5;
+        border-radius:12px;
+        color:#c2185b;
+        font-weight:bold;
+      ">
+
+        ✨ Your match is ${match}
+
+      </div>
+
+    `;
+
+  };
+
+</script>
 
 </body>
 </html>
