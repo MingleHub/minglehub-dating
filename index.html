@@ -1,492 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MingleHub - Dating & Chat</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MingleHub Dating</title>
   <style>
-    :root {
-      --primary-pink: #ff4b72;
-      --secondary-pink: #ff758c;
-      --light-pink: #fff0f3;
-      --hover-pink: #e0375d;
-      --white: #ffffff;
-      --text-dark: #2d3436;
-      --text-muted: #8395a7;
-      --bg-gray: #f8f9fa;
-      --border-color: #f1f2f6;
-    }
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     body {
-      background-color: var(--light-pink);
-      color: var(--text-dark);
+      background-color: #fff0f3;
+      color: #333;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-
     /* Navbar */
     header {
-      background: var(--white);
-      padding: 15px 40px;
+      background: #ffffff;
+      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 15px rgba(255, 75, 114, 0.08);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      border-bottom: 2px solid #ffe3e8;
     }
-
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       font-size: 24px;
-      font-weight: 700;
-      color: var(--primary-pink);
+      font-weight: bold;
+      color: #ff4081;
       text-decoration: none;
     }
-
-    .nav-btn {
-      background: transparent;
-      border: 2px solid var(--primary-pink);
-      color: var(--primary-pink);
-      padding: 8px 22px;
-      border-radius: 25px;
-      font-weight: 600;
+    .logout-btn {
+      background: #ff4081;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
       cursor: pointer;
-      transition: 0.3s ease;
+      font-weight: 600;
+      display: none;
     }
-
-    .nav-btn:hover {
-      background: var(--primary-pink);
-      color: var(--white);
-    }
-
-    /* Main Container */
+    
+    /* Main Layout */
     main {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px 15px;
+      padding: 20px;
     }
 
-    /* Auth Card Styles */
-    .auth-card {
-      background: var(--white);
+    /* Auth Box */
+    .card {
+      background: #ffffff;
       width: 100%;
-      max-width: 440px;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(255, 75, 114, 0.12);
-      padding: 35px 30px;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(255, 64, 129, 0.12);
       text-align: center;
     }
-
-    .auth-card h2 {
-      font-size: 26px;
-      margin-bottom: 6px;
-      color: var(--text-dark);
+    h2 {
+      color: #222;
+      margin-bottom: 8px;
     }
-
-    .auth-card p.subtitle {
+    p.sub {
+      color: #777;
       font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
-
-    .form-group {
-      margin-bottom: 18px;
+    .input-box {
+      width: 100%;
+      margin-bottom: 15px;
       text-align: left;
     }
-
-    .form-group label {
+    .input-box label {
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
-
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .input-wrapper i {
-      position: absolute;
-      left: 15px;
-      color: var(--primary-pink);
-    }
-
-    .input-wrapper input {
+    .input-box input {
       width: 100%;
-      padding: 13px 15px 13px 42px;
-      border: 1.5px solid var(--border-color);
-      background: var(--bg-gray);
-      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       outline: none;
       font-size: 14px;
-      transition: 0.3s;
     }
-
-    .input-wrapper input:focus {
-      border-color: var(--primary-pink);
-      background: var(--white);
-      box-shadow: 0 0 0 3px rgba(255, 75, 114, 0.15);
+    .input-box input:focus {
+      border-color: #ff4081;
     }
-
-    .form-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-
-    .form-options a, .toggle-link {
-      color: var(--primary-pink);
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-submit {
+    .btn-main {
       width: 100%;
-      background: linear-gradient(135deg, var(--secondary-pink), var(--primary-pink));
-      color: var(--white);
+      background: #ff4081;
+      color: white;
       border: none;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 12px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: bold;
+      border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(255, 75, 114, 0.3);
-      transition: 0.3s ease;
+      margin-top: 10px;
     }
-
-    .btn-submit:hover {
-      background: linear-gradient(135deg, var(--primary-pink), var(--hover-pink));
-      transform: translateY(-1px);
+    .btn-main:hover {
+      background: #e0356f;
     }
-
-    .switch-text {
-      margin-top: 20px;
+    .links {
+      margin-top: 15px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: #555;
+    }
+    .links a {
+      color: #ff4081;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .status-msg {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+    .msg-error {
+      background: #ffe6e6;
+      color: #d63031;
+      display: block;
+    }
+    .msg-success {
+      background: #e6ffed;
+      color: #27ae60;
+      display: block;
     }
 
-    /* ---------------- Chatting UI ---------------- */
-    .chat-container {
-      display: none; /* Shown after login */
+    /* Chatting Box */
+    .chat-box {
+      display: none;
       width: 100%;
-      max-width: 950px;
-      height: 600px;
-      background: var(--white);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 800px;
+      height: 520px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       overflow: hidden;
+      flex-direction: row;
     }
-
-    .chat-sidebar {
-      width: 320px;
-      background: var(--white);
-      border-right: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
+    .chat-users {
+      width: 260px;
+      border-right: 1px solid #eee;
+      background: #fafafa;
     }
-
-    .sidebar-header {
-      padding: 20px;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--primary-pink);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .user-list {
-      flex: 1;
-      overflow-y: auto;
-      list-style: none;
-    }
-
-    .user-item {
+    .user-tab {
+      padding: 15px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
+      gap: 10px;
+      border-bottom: 1px solid #f0f0f0;
       cursor: pointer;
-      transition: 0.2s;
+      background: #fff0f3;
     }
-
-    .user-item:hover, .user-item.active {
-      background: var(--light-pink);
-    }
-
-    .user-item img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .user-info h4 {
-      font-size: 14px;
-      color: var(--text-dark);
-    }
-
-    .user-info p {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* Chat Area */
-    .chat-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg-gray);
-    }
-
-    .chat-header {
-      padding: 16px 24px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-header img {
+    .user-tab img {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      object-fit: cover;
     }
-
-    .chat-messages {
+    .chat-area {
       flex: 1;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      font-weight: bold;
+      color: #333;
+    }
+    .chat-logs {
+      flex: 1;
+      padding: 15px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-    }
-
-    .message {
-      max-width: 65%;
-      padding: 10px 16px;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    .message.received {
-      background: var(--white);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-
-    .message.sent {
-      background: linear-gradient(135deg, var(--secondary-pink), var(--primary-pink));
-      color: var(--white);
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    .chat-input-area {
-      padding: 15px 20px;
-      background: var(--white);
-      display: flex;
       gap: 10px;
-      border-top: 1px solid var(--border-color);
+      background: #fdfdfd;
     }
-
-    .chat-input-area input {
-      flex: 1;
-      padding: 12px 18px;
-      border: 1px solid var(--border-color);
-      border-radius: 25px;
-      outline: none;
-      background: var(--bg-gray);
+    .msg {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 14px;
     }
-
-    .chat-input-area input:focus {
-      border-color: var(--primary-pink);
+    .msg.incoming {
+      background: #f1f2f6;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
     }
-
-    .send-btn {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      border: none;
-      background: var(--primary-pink);
-      color: var(--white);
-      cursor: pointer;
+    .msg.outgoing {
+      background: #ff4081;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-input {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
+      padding: 12px;
+      border-top: 1px solid #eee;
+      background: #fff;
     }
-
-    .send-btn:hover {
-      background: var(--hover-pink);
+    .chat-input input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      outline: none;
+    }
+    .chat-input button {
+      background: #ff4081;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 8px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="#" class="logo"><i class="fa-solid fa-heart"></i> MingleHub</a>
-    <button class="nav-btn" id="logoutBtn" style="display: none;" onclick="logout()">Logout</button>
+    <a href="#" class="logo">♥ MingleHub</a>
+    <button class="logout-btn" id="logoutBtn" onclick="appLogout()">Logout</button>
   </header>
 
   <main>
-    <div class="auth-card" id="loginCard">
-      <h2>Welcome Back!</h2>
-      <p class="subtitle">Connect with matches around you</p>
-      <form onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Email Address</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-envelope"></i>
-            <input type="email" placeholder="youremail@example.com" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" placeholder="••••••••" required />
-          </div>
-        </div>
-        <div class="form-options">
-          <label><input type="checkbox" /> Remember me</label>
-          <a onclick="showSection('forgotCard')">Forgot Password?</a>
-        </div>
-        <button type="submit" class="btn-submit">Sign In</button>
-      </form>
-      <p class="switch-text">
-        Don't have an account? <span class="toggle-link" onclick="showSection('signupCard')">Sign Up</span>
-      </p>
-    </div>
-
-    <div class="auth-card" id="signupCard" style="display: none;">
-      <h2>Create Account</h2>
-      <p class="subtitle">Find your perfect companion</p>
-      <form onsubmit="handleSignup(event)">
-        <div class="form-group">
-          <label>Full Name</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-user"></i>
-            <input type="text" placeholder="John Doe" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-envelope"></i>
-            <input type="email" placeholder="youremail@example.com" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" placeholder="••••••••" required />
-          </div>
-        </div>
-        <button type="submit" class="btn-submit">Sign Up</button>
-      </form>
-      <p class="switch-text">
-        Already have an account? <span class="toggle-link" onclick="showSection('loginCard')">Log In</span>
-      </p>
-    </div>
-
-    <div class="auth-card" id="forgotCard" style="display: none;">
-      <h2>Reset Password</h2>
-      <p class="subtitle">Enter your email to receive recovery instructions</p>
-      <form onsubmit="handleReset(event)">
-        <div class="form-group">
-          <label>Email Address</label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-envelope"></i>
-            <input type="email" placeholder="youremail@example.com" required />
-          </div>
-        </div>
-        <button type="submit" class="btn-submit">Send Reset Link</button>
-      </form>
-      <p class="switch-text">
-        Remembered password? <span class="toggle-link" onclick="showSection('loginCard')">Back to Login</span>
-      </p>
-    </div>
-
-    <div class="chat-container" id="chatContainer">
-      <div class="chat-sidebar">
-        <div class="sidebar-header">
-          <span>Matches & Chats</span>
-          <i class="fa-solid fa-sliders"></i>
-        </div>
-        <ul class="user-list">
-          <li class="user-item active">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Riya">
-            <div class="user-info">
-              <h4>Riya Sen</h4>
-              <p>Hey there! How's your day?</p>
-            </div>
-          </li>
-          <li class="user-item">
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150" alt="Priya">
-            <div class="user-info">
-              <h4>Priya Das</h4>
-              <p>Liked your music playlist! 🎶</p>
-            </div>
-          </li>
-        </ul>
+    <div class="card" id="viewLogin">
+      <h2>Welcome Back</h2>
+      <p class="sub">Find your match today</p>
+      <div id="loginMsg" class="status-msg"></div>
+      
+      <div class="input-box">
+        <label>Email</label>
+        <input type="email" id="txtLoginEmail" placeholder="test@mail.com">
       </div>
+      <div class="input-box">
+        <label>Password</label>
+        <input type="password" id="txtLoginPass" placeholder="Enter password">
+      </div>
+      <div style="text-align: right; margin-bottom: 10px;">
+        <a onclick="showView('viewForgot')" style="color: #ff4081; font-size: 13px; cursor: pointer;">Forgot Password?</a>
+      </div>
+      <button class="btn-main" onclick="appLogin()">Log In</button>
+      
+      <div class="links">
+        Don't have an account? <a onclick="showView('viewSignup')">Sign Up</a>
+      </div>
+    </div>
 
-      <div class="chat-main">
-        <div class="chat-header">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Riya">
+    <div class="card" id="viewSignup" style="display: none;">
+      <h2>Create Account</h2>
+      <p class="sub">Join MingleHub community</p>
+      <div id="signupMsg" class="status-msg"></div>
+      
+      <div class="input-box">
+        <label>Full Name</label>
+        <input type="text" id="txtSignName" placeholder="Your Name">
+      </div>
+      <div class="input-box">
+        <label>Email</label>
+        <input type="email" id="txtSignEmail" placeholder="youremail@mail.com">
+      </div>
+      <div class="input-box">
+        <label>Password</label>
+        <input type="password" id="txtSignPass" placeholder="Create password">
+      </div>
+      <button class="btn-main" onclick="appSignup()">Create Account</button>
+      
+      <div class="links">
+        Already have an account? <a onclick="showView('viewLogin')">Log In</a>
+      </div>
+    </div>
+
+    <div class="card" id="viewForgot" style="display: none;">
+      <h2>Reset Password</h2>
+      <p class="sub">Enter your email to find password</p>
+      <div id="forgotMsg" class="status-msg"></div>
+      
+      <div class="input-box">
+        <label>Registered Email</label>
+        <input type="email" id="txtForgotEmail" placeholder="youremail@mail.com">
+      </div>
+      <button class="btn-main" onclick="appForgot()">Show My Password</button>
+      
+      <div class="links">
+        Remembered? <a onclick="showView('viewLogin')">Back to Login</a>
+      </div>
+    </div>
+
+    <div class="chat-box" id="viewChat">
+      <div class="chat-users">
+        <div class="user-tab">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Avatar">
           <div>
-            <h4 style="font-size: 15px;">Riya Sen</h4>
-            <span style="font-size: 12px; color: #2ecc71;">● Active Now</span>
+            <strong>Riya Sen</strong>
+            <p style="font-size: 11px; color: #2ecc71;">● Online</p>
           </div>
         </div>
-
-        <div class="chat-messages" id="messagesBox">
-          <div class="message received">Hi! Nice to connect with you on MingleHub 😊</div>
-          <div class="message sent">Hello Riya! Glad to connect with you too! ✨</div>
+      </div>
+      
+      <div class="chat-area">
+        <div class="chat-header">Chat with Riya Sen</div>
+        <div class="chat-logs" id="chatLogs">
+          <div class="msg incoming">Hi! Welcome to MingleHub. Nice to connect with you! 😊</div>
         </div>
-
-        <div class="chat-input-area">
-          <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
-          <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        <div class="chat-input">
+          <input type="text" id="txtChatInput" placeholder="Write a message..." onkeypress="if(event.key==='Enter') sendMsg()">
+          <button onclick="sendMsg()">Send</button>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    // Screen Navigation
-    function showSection(sectionId) {
-      document.getElementById('loginCard').style.display = 'none';
-      document.getElementById('signupCard').style.display = 'none';
-      document.getElementById('forgotCard').style.display = 'none';
-      document.getElementById('chatContainer').style.display = '
+    // Local In-Memory DB (Keeps running smoothly)
+    let userDatabase = [
+      { name: "Demo User", email: "demo@mail.com", pass: "123456" }
+    ];
+
+    // Screen Switching Function
+    function showView(viewId) {
+      document.getElementById('viewLogin').style.display = 'none';
+      document.getElementById('viewSignup').style.display = 'none';
+      document.getElementById('viewForgot').style.display = 'none';
+      document.getElementById('viewChat').style.display = 'none';
+
+      const target = document.getElementById(viewId);
+      if(viewId === 'viewChat') {
+        target.style.display = 'flex';
+        document.getElementById('logoutBtn').style.display = 'block';
+      } else {
+        target.style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'none';
+      }
+    }
+
+    // SIGNUP
+    function appSignup() {
+      const name = document.getElementById('txtSignName').value.trim();
+      const email = document.getElementById('txtSignEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('txtSignPass').value.trim();
+      const msgBox = document.getElementById('signupMsg');
+
+      if (!name || !email || !pass) {
+        msgBox.className = 'status-msg msg-error';
+        msgBox.innerText = 'Please fill out all fields!';
+        return;
+      }
+
+      // Check Duplicate
+      const exists = userDatabase.find(u => u.email === email);
+      if (exists) {
+        msgBox.className = 'status-msg msg-error';
+        msgBox.innerText = 'This email already exists! Go to Login.';
+        return;
+      }
+
+      // Add to array
+      userDatabase.push({ name: name, email: email, pass: pass });
+      
+      alert('Signup Successful! Redirecting you to chat...');
+      showView('viewChat');
+    }
+
+    // LOGIN
+    function appLogin() {
+      const email = document.getElementById('txtLoginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('txtLoginPass').value.trim();
+      const msgBox = document.getElementById('loginMsg');
+
+      const user = userDatabase.find(u => u.email === email && u.pass === pass);
+      
+      if (user) {
+        showView('viewChat');
+      } else {
+        msgBox.className = 'status-msg msg-error';
+        msgBox.innerText = 'Invalid email or password!';
+      }
+    }
+
+    // FORGOT PASSWORD
+    function appForgot() {
+      const email = document.getElementById('txtForgotEmail').value.trim().toLowerCase();
+      const msgBox = document.getElementById('forgotMsg');
+
+      const user = userDatabase.find(u => u.email === email);
+      if (user) {
+        msgBox.className = 'status-msg msg-success';
+        msgBox.innerText = 'Your Password is: ' + user.pass;
+      } else {
+        msgBox.className = 'status-msg msg-error';
+        msgBox.innerText = 'No account found with this email.';
+      }
+    }
+
+    // LOGOUT
+    function appLogout() {
+      showView('viewLogin');
+    }
+
+    // CHAT MESSAGE
+    function sendMsg() {
+      const input = document.getElementById('txtChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const logs = document.getElementById('chatLogs');
+      
+      // User Message
+      const userBubble = document.createElement('div');
+      userBubble.className = 'msg outgoing';
+      userBubble.innerText = text;
+      logs.appendChild(userBubble);
+
+      input.value = '';
+      logs.scrollTop = logs.scrollHeight;
+
+      // Auto Reply
+      setTimeout(() => {
+        const replyBubble = document.createElement('div');
+        replyBubble.className = 'msg incoming';
+        replyBubble.innerText = "That sounds great! Tell me more about yourself ✨";
+        logs.appendChild(replyBubble);
+        logs.scrollTop = logs.scrollHeight;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
