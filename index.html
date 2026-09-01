@@ -1,527 +1,324 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MingleHub ❤️</title>
+import 'package:flutter/material.dart';
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+void main() {
+  runApp(const DatingApp());
+}
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+class DatingApp extends StatelessWidget {
+  const DatingApp({super.key});
 
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      padding: 30px;
-      border-radius: 22px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.15);
-      text-align: center;
-    }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Dating App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        primaryColor: const Color(0xFFFF4081),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFF4081),
+          primary: const Color(0xFFFF4081),
+        ),
+        useMaterial3: true,
+      ),
+      home: const AuthScreen(),
+    );
+  }
+}
 
-    h1 {
-      color: #e91e63;
-      margin-bottom: 10px;
-    }
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
-    h2 {
-      margin-bottom: 20px;
-      color: #444;
-    }
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-    }
+class _AuthScreenState extends State<AuthScreen> {
+  bool isLogin = true;
+  final _formKey = GlobalKey<FormState>();
 
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 30px;
-      background: #e91e63;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+  // Controllers
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
-    button:hover {
-      background: #c2185b;
-    }
+  bool _obscurePassword = true;
 
-    .secondary {
-      background: #777;
-    }
-
-    .secondary:hover {
-      background: #555;
-    }
-
-    .link {
-      margin-top: 15px;
-      color: #e91e63;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    #signupBox,
-    #profileBox {
-      display: none;
-    }
-
-    #message {
-      margin-top: 15px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .welcome {
-      margin: 15px 0;
-      color: #555;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="card">
-
-  <h1>Welcome to MingleHub ❤️</h1>
-
-  <!-- LOGIN -->
-  <div id="loginBox">
-
-    <h2>Login</h2>
-
-    <input
-      type="email"
-      id="loginEmail"
-      placeholder="Email"
-    >
-
-    <input
-      type="password"
-      id="loginPassword"
-      placeholder="Password"
-    >
-
-    <button onclick="loginUser()">
-      Login
-    </button>
-
-    <div class="link" onclick="showSignup()">
-      Don't have an account? Sign Up
-    </div>
-
-  </div>
-
-
-  <!-- SIGN UP -->
-  <div id="signupBox">
-
-    <h2>Create Account</h2>
-
-    <input
-      type="text"
-      id="signupName"
-      placeholder="Your name"
-    >
-
-    <input
-      type="email"
-      id="signupEmail"
-      placeholder="Email"
-    >
-
-    <input
-      type="password"
-      id="signupPassword"
-      placeholder="Password (6+ characters)"
-    >
-
-    <button onclick="signupUser()">
-      Create Account
-    </button>
-
-    <div class="link" onclick="showLogin()">
-      Already have an account? Login
-    </div>
-
-  </div>
-
-
-  <!-- PROFILE -->
-  <div id="profileBox">
-
-    <h2>Welcome 🎉</h2>
-
-    <div class="welcome" id="userInfo"></div>
-
-    <button onclick="findMatch()">
-      ❤️ Find My Match
-    </button>
-
-    <button class="secondary" onclick="logoutUser()">
-      Logout
-    </button>
-
-    <div id="matchDisplay"></div>
-
-  </div>
-
-  <div id="message"></div>
-
-</div>
-
-
-<!-- Firebase -->
-<script type="module">
-
-  import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-  } from
-  "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc
-  } from
-  "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDn0eMtWR_SZOvqZxdnBD0gfja8X30gvzk",
-    authDomain: "minglehub-46e.firebaseapp.com",
-    projectId: "minglehub-46e",
-    storageBucket: "minglehub-46e.firebasestorage.app",
-    messagingSenderId: "916619028421",
-    appId: "1:916619028421:web:21de6cfb0afbb2e7ebcdac",
-    measurementId: "G-QV631LW87V"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-  
-
-  
-
-
-  
-
-  const app = initializeApp(firebaseConfig);
-
-  const auth = getAuth(app);
-
-  const db = getFirestore(app);
-
-
-  // ==========================================
-  // SHOW MESSAGE
-  // ==========================================
-
-  function showMessage(text) {
-
-    document.getElementById("message").innerText = text;
-
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
-
-  // ==========================================
-  // SHOW LOGIN
-  // ==========================================
-
-  window.showLogin = function() {
-
-    document.getElementById("loginBox").style.display = "block";
-
-    document.getElementById("signupBox").style.display = "none";
-
-    document.getElementById("profileBox").style.display = "none";
-
-    showMessage("");
-
-  };
-
-
-  // ==========================================
-  // SHOW SIGNUP
-  // ==========================================
-
-  window.showSignup = function() {
-
-    document.getElementById("loginBox").style.display = "none";
-
-    document.getElementById("signupBox").style.display = "block";
-
-    document.getElementById("profileBox").style.display = "none";
-
-    showMessage("");
-
-  };
-
-
-  // ==========================================
-  // SIGN UP
-  // ==========================================
-
-  window.signupUser = async function() {
-
-    const name =
-      document.getElementById("signupName").value.trim();
-
-    const email =
-      document.getElementById("signupEmail").value.trim();
-
-    const password =
-      document.getElementById("signupPassword").value;
-
-
-    if (!name || !email || !password) {
-
-      showMessage("Please fill all fields.");
-
-      return;
-
-    }
-
-
-    if (password.length < 6) {
-
-      showMessage("Password must be at least 6 characters.");
-
-      return;
-
-    }
-
-
-    try {
-
-      const userCredential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      if (isLogin) {
+        // Handle Login Logic
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Logging in...'),
+            backgroundColor: Color(0xFFFF4081),
+          ),
         );
-
-
-      const user = userCredential.user;
-
-
-      // Save profile in Firestore
-
-      await setDoc(
-        doc(db, "users", user.uid),
-        {
-
-          name: name,
-
-          email: email,
-
-          createdAt: new Date(),
-
-          bio: "",
-
-          photo: "",
-
-          online: true
-
-        }
-      );
-
-
-      showMessage("Account created successfully ❤️");
-
-
-    } catch (error) {
-
-      showMessage(error.message);
-
-    }
-
-  };
-
-
-  // ==========================================
-  // LOGIN
-  // ==========================================
-
-  window.loginUser = async function() {
-
-    const email =
-      document.getElementById("loginEmail").value.trim();
-
-    const password =
-      document.getElementById("loginPassword").value;
-
-
-    if (!email || !password) {
-
-      showMessage("Enter email and password.");
-
-      return;
-
-    }
-
-
-    try {
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      showMessage("Login successful ❤️");
-
-
-    } catch (error) {
-
-      showMessage(error.message);
-
-    }
-
-  };
-
-
-  // ==========================================
-  // LOGOUT
-  // ==========================================
-
-  window.logoutUser = async function() {
-
-    await signOut(auth);
-
-    showMessage("Logged out.");
-
-  };
-
-
-  // ==========================================
-  // AUTH STATE
-  // ==========================================
-
-  onAuthStateChanged(auth, async (user) => {
-
-    if (user) {
-
-      document.getElementById("loginBox").style.display = "none";
-
-      document.getElementById("signupBox").style.display = "none";
-
-      document.getElementById("profileBox").style.display = "block";
-
-
-      const userDoc =
-        await getDoc(doc(db, "users", user.uid));
-
-
-      if (userDoc.exists()) {
-
-        const data = userDoc.data();
-
-        document.getElementById("userInfo").innerText =
-          `Hi ${data.name}! 👋\n${data.email}`;
-
       } else {
-
-        document.getElementById("userInfo").innerText =
-          user.email;
-
+        // Handle Signup Logic
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Creating account...'),
+            backgroundColor: Color(0xFFFF4081),
+          ),
+        );
       }
-
-    } else {
-
-      showLogin();
-
     }
+  }
 
-  });
+  @override
+  Widget build(BuildContext context) {
+    const primaryPink = Color(0xFFFF4081);
+    const lightPink = Color(0xFFFCE4EC);
 
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Logo / Header Icon
+                  Container(
+                    width: 90,
+                    height: 90,
+                    decoration: const BoxDecoration(
+                      color: lightPink,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.favorite_rounded,
+                      size: 50,
+                      color: primaryPink,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Title
+                  Text(
+                    isLogin ? 'Welcome Back!' : 'Find Your Match',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    isLogin 
+                        ? 'Sign in to continue connecting with people' 
+                        : 'Create an account to discover new connections',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
 
-  // ==========================================
-  // DEMO MATCH
-  // ==========================================
+                  // Name Field (Sign Up Only)
+                  if (!isLogin) ...[
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Full Name',
+                        prefixIcon: const Icon(Icons.person_outline, color: primaryPink),
+                        filled: true,
+                        fillColor: lightPink.withValues(alpha: 0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (value) => (value == null || value.isEmpty) ? 'Enter your name' : null,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
-  window.findMatch = function() {
+                  // Email Field
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Email Address',
+                      prefixIcon: const Icon(Icons.email_outlined, color: primaryPink),
+                      filled: true,
+                      fillColor: lightPink.withValues(alpha: 0.3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty || !value.contains('@')) {
+                        return 'Enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
-    const matches = [
+                  // Password Field
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: const Icon(Icons.lock_outline, color: primaryPink),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      filled: true,
+                      fillColor: lightPink.withValues(alpha: 0.3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    validator: (value) => (value != null && value.length < 6)
+                        ? 'Password must be at least 6 characters'
+                        : null,
+                  ),
+                  const SizedBox(height: 16),
 
-      "Akash, 19 🌟",
+                  // Confirm Password Field (Sign Up Only)
+                  if (!isLogin) ...[
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        prefixIcon: const Icon(Icons.lock_reset_outlined, color: primaryPink),
+                        filled: true,
+                        fillColor: lightPink.withValues(alpha: 0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
-    "Gourob, er choto nunu 🤌🏻",
+                  // Forgot Password (Login Only)
+                  if (isLogin)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: primaryPink,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 12),
 
-      "ishan, 18 🚀",
+                  // Submit Button
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    style: ElevatedButton.styleFormButton(
+                      backgroundColor: primaryPink,
+                      foregroundColor: Colors.white,
+                      elevation: 3,
+                      shadowColor: primaryPink.withValues(alpha: 0.4),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Text(
+                      isLogin ? 'Sign In' : 'Create Account',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
 
-      
+                  // Toggle Login / Signup
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        isLogin ? "Don't have an account? " : "Already have an account? ",
+                        style: TextStyle(color: Colors.grey.shade700),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isLogin = !isLogin;
+                            _formKey.currentState?.reset();
+                          });
+                        },
+                        child: Text(
+                          isLogin ? 'Sign Up' : 'Log In',
+                          style: const TextStyle(
+                            color: primaryPink,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-    
-
-    ];
-
-
-    const match =
-      matches[Math.floor(Math.random() * matches.length)];
-
-
-    document.getElementById("matchDisplay").innerHTML = `
-
-      <div style="
-        margin-top:20px;
-        padding:15px;
-        background:#fff0f5;
-        border-radius:12px;
-        color:#c2185b;
-        font-weight:bold;
-      ">
-
-        ✨ Your match is ${match}
-
-      </div>
-
-    `;
-
-  };
-
-</script>
-
-</body>
-</html>
-
+// Helper Extension for Cleaner Styling
+extension ButtonStyleExtension on ElevatedButton {
+  static ButtonStyle styleFormButton({
+    required Color backgroundColor,
+    required Color foregroundColor,
+    required double elevation,
+    required Color shadowColor,
+    required EdgeInsets padding,
+    required OutlinedBorder shape,
+  }) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      elevation: elevation,
+      shadowColor: shadowColor,
+      padding: padding,
+      shape: shape,
+    );
+  }
+}
