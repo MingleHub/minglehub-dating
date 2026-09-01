@@ -216,29 +216,35 @@
   } from
   "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // ==========================================
-  // 🔥 PUT YOUR FIREBASE CONFIG HERE
-  // ==========================================
-
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-
-    apiKey: "YOUR_API_KEY",
-
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-
-    projectId: "YOUR_PROJECT_ID",
-
-    storageBucket: "YOUR_PROJECT.firebasestorage.app",
-
-    messagingSenderId: "YOUR_SENDER_ID",
-
-    appId: "YOUR_APP_ID"
-
+    apiKey: "AIzaSyDn0eMtWR_SZOvqZxdnBD0gfja8X30gvzk",
+    authDomain: "minglehub-46e.firebaseapp.com",
+    projectId: "minglehub-46e",
+    storageBucket: "minglehub-46e.firebasestorage.app",
+    messagingSenderId: "916619028421",
+    appId: "1:916619028421:web:21de6cfb0afbb2e7ebcdac",
+    measurementId: "G-QV631LW87V"
   };
 
-
   // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+  
+
+  
+
+
+  
 
   const app = initializeApp(firebaseConfig);
 
